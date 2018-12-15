@@ -1,0 +1,17 @@
+*.swp
+*~
+*.iml
+.*.haste_cache.*
+.DS_Store
+*/**/.DS_Store
+.idea
+npm-debug.log
+node_modules
+dist
+tests/output/
+build/
+.nyc_output/
+.vscode/
+.coverage
+coverage
+.watchmanconfig

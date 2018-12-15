@@ -2,18 +2,77 @@
   "name": "react-native-toastboard",
   "version": "0.0.0",
   "description": "Toast feedback messages for React Native",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/jest --no-cache --detectOpenHandles --forceExit",
+    "lint": "./node_modules/.bin/eslint .",
+    "flow": "./node_modules/.bin/flow",
+    "stage": "npm run lint && npm run flow",
+    "prepublishOnly": "npm run stage && npm run test",
+    "install:types": "./node_modules/.bin/flow-typed install --libdefDir ./node_modules/@flow-typed"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MAKARD/react-native-toastboard.git"
   },
   "author": "Makarenko Dmitry",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/MAKARD/react-native-toastboard/issues"
   },
-  "homepage": "https://github.com/MAKARD/react-native-toastboard#readme"
+  "homepage": "https://github.com/MAKARD/react-native-toastboard#readme",
+  "jest": {
+    "notify": true,
+    "preset": "react-native",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/core.js",
+      "/core-types.js",
+      "/node_modules/"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/jest-preprocessor.js"
+    }
+  },
+  "pre-commit": [
+    "stage",
+    "test"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-preset-react-native": "^4.0.1",
+    "codecov": "^3.1.0",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "flow-bin": "^0.89.0",
+    "flow-typed": "^2.5.1",
+    "jest": "^23.6.0",
+    "metro-react-native-babel-preset": "^0.48.5",
+    "pre-commit": "^1.2.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-native": "^0.57.8",
+    "react-test-renderer": "^16.6.3",
+    "schedule": "^0.4.0"
+  },
+  "peerDependencies": {
+    "react": "^16.5.2",
+    "prop-types": "^15.6.2",
+    "react-native": "^0.57.1"
+  }
 }
