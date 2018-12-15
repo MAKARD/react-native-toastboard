@@ -1,0 +1,19 @@
+{
+  "name": "react-native-toastboard",
+  "version": "0.0.0",
+  "description": "Toast feedback messages for React Native",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MAKARD/react-native-toastboard.git"
+  },
+  "author": "Makarenko Dmitry",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/MAKARD/react-native-toastboard/issues"
+  },
+  "homepage": "https://github.com/MAKARD/react-native-toastboard#readme"
+}
