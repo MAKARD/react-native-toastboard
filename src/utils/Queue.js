@@ -24,14 +24,13 @@ export class Queue {
 	}
 
 	process = async () => {
+		this.active = true;
 		await this.beforeIteration();
 
 		if (!this.list.length) {
 			this.active = false;
 			return;
 		}
-
-		this.active = true;
 
 		if (this.onIteration) {
 			await this.onIteration(this.list[0]);

@@ -90,7 +90,7 @@ export class Toaster extends React.Component<ToasterProps> {
 			};
 		});
 
-		this.props.onHide && this.props.onHide();
 		await this.props.animation.backward();
+		this.props.onHide && this.props.onHide();
 	}
 }

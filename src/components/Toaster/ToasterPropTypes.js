@@ -1,8 +1,10 @@
 // @flow
 import PropTypes from "prop-types";
 
-import { BaseAnimation, SlideUp } from "../../../animations";
-import type { BaseAnimationInterface } from "../../../animations";
+// $FlowFixMe
+import { BaseAnimation, SlideUp } from "react-native-toastboard/animations";
+// $FlowFixMe
+import type { BaseAnimationInterface } from "react-native-toastboard/animations";
 
 export interface ToasterProps {
 	onHide?: ?() => void;

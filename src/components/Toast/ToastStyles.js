@@ -46,7 +46,7 @@ export const ToastStyles = {
 			padding: 20
 		},
 		message: {
-			color: "#000",
+			color: "black",
 
 			textAlign: "center"
 		}
