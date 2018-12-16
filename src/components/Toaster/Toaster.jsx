@@ -85,6 +85,7 @@ export class Toaster extends React.Component<ToasterProps> {
 
 	handlePress = () => {
 		this.nextItem && this.nextItem();
+		this.nextItem = undefined;
 	}
 
 	handleIteration = async (item: any) => {
@@ -94,6 +95,7 @@ export class Toaster extends React.Component<ToasterProps> {
 		await wait(item.duration || this.props.duration, (resolve) => {
 			this.nextItem = () => resolve();
 		});
+		this.nextItem = undefined;
 
 		await this.props.animation.backward();
 		this.props.onHide && this.props.onHide();
