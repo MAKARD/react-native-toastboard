@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 
 // $FlowFixMe
-import { BaseAnimation, SlideUp } from "react-native-toastboard/animations";
+import { BaseAnimation, SlideY } from "react-native-toastboard/animations";
 // $FlowFixMe
 import type { BaseAnimationInterface } from "react-native-toastboard/animations";
 
@@ -36,9 +36,9 @@ export const ToasterPropTypes = {
 
 export const ToasterDefaultProps = {
 	/* eslint-disable-next-line no-magic-numbers */
-	animation: new SlideUp(-57, 0),
+	animation: new SlideY(-57, 0),
 
 	duration: 2000,
 
-	style: ToasterStyles
+	style: ToasterStyles.container
 };
