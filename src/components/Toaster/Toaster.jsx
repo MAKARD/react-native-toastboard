@@ -39,7 +39,10 @@ export class Toaster extends React.Component<ToasterProps> {
 	constructor(props: ToasterProps) {
 		super(props);
 
-		this.queue = new Queue(this.handleIteration, () => this.forceUpdate());
+		this.queue = new Queue({
+			onIteration: this.handleIteration,
+			beforeIteration: () => this.forceUpdate()
+		});
 	}
 
 	queue: Queue;
@@ -84,7 +87,11 @@ export class Toaster extends React.Component<ToasterProps> {
 	}
 
 	handlePress = () => {
-		this.nextItem && this.nextItem();
+		if (!this.nextItem) {
+			return;
+		}
+
+		this.nextItem();
 		this.nextItem = undefined;
 	}
 
