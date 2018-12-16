@@ -60,6 +60,6 @@ export class Queue {
 			return;
 		}
 
-		this.process();
+		return this.process();
 	}
 }
