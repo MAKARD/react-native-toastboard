@@ -1,6 +1,6 @@
 {
   "name": "react-native-toastboard",
-  "version": "0.0.0",
+  "version": "0.0.0-dev3",
   "description": "Toast feedback messages for React Native",
   "main": "src/index.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "lint": "./node_modules/.bin/eslint .",
     "flow": "./node_modules/.bin/flow",
     "stage": "npm run lint && npm run flow",
-    "prepublishOnly": "npm run stage && npm run test",
     "install:types": "./node_modules/.bin/flow-typed install --libdefDir ./node_modules/@flow-typed"
   },
   "repository": {

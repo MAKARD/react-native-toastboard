@@ -1,8 +1,10 @@
-// @flow4
+// @flow
 import PropTypes from "prop-types";
 
-import { BaseAnimation, SlideUp } from "../../animations";
-import type { BaseAnimationInterface } from "../../animations/BaseAnimation";
+// $FlowFixMe
+import { BaseAnimation, SlideUp } from "react-native-toastboard/animations";
+// $FlowFixMe
+import type { BaseAnimationInterface } from "react-native-toastboard/animations";
 
 export interface ToasterProps {
 	onHide?: ?() => void;
@@ -11,7 +13,8 @@ export interface ToasterProps {
 	animation: BaseAnimationInterface;
 	duration?: number;
 
-	children?: (item: { type: string, message: string }) => $React.Node;
+	children?: (item: { type: string, message: string }) => React$Node;
+	delayBetween?: number;
 
 	style?: any;
 }
@@ -23,6 +26,8 @@ export const ToasterPropTypes = {
 	children: PropTypes.func,
 
 	duration: PropTypes.number,
+
+	delayBetween: PropTypes.number,
 
 	animation: PropTypes.instanceOf(BaseAnimation).isRequired
 };

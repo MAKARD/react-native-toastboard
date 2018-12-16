@@ -45,10 +45,6 @@ export class Toaster extends React.Component<ToasterProps> {
 		});
 	}
 
-	queue: Queue;
-
-	nextItem: () => void;
-
 	componentDidMount() {
 		createToast = (message: string, type: string, duration?: number) => {
 			this.queue.push({ message, type, duration });
@@ -86,6 +82,10 @@ export class Toaster extends React.Component<ToasterProps> {
 		);
 	}
 
+	queue: Queue;
+
+	nextItem: (() => void) | void
+
 	handlePress = () => {
 		if (!this.nextItem) {
 			return;
@@ -96,8 +96,8 @@ export class Toaster extends React.Component<ToasterProps> {
 	}
 
 	handleIteration = async (item: any) => {
-		await this.props.animation.forward();
 		this.props.onShow && this.props.onShow();
+		await this.props.animation.forward();
 
 		await wait(item.duration || this.props.duration, (resolve) => {
 			this.nextItem = () => resolve();
@@ -106,5 +106,9 @@ export class Toaster extends React.Component<ToasterProps> {
 
 		await this.props.animation.backward();
 		this.props.onHide && this.props.onHide();
+
+		if (this.props.delayBetween) {
+			await wait(this.props.delayBetween);
+		}
 	}
 }

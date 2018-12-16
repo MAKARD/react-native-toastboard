@@ -86,7 +86,7 @@
             "error",
             {
                 "ignore": [
-                    "^@"
+                    "^react-native-toastboard"
                 ]
             }
         ],
