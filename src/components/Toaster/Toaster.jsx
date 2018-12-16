@@ -42,10 +42,6 @@ export class Toaster extends React.Component<ToasterProps> {
 		this.queue = new Queue(this.handleIteration, () => this.forceUpdate());
 	}
 
-	queue: Queue;
-
-	nextItem: () => void;
-
 	componentDidMount() {
 		createToast = (message: string, type: string, duration?: number) => {
 			this.queue.push({ message, type, duration });
@@ -75,6 +71,10 @@ export class Toaster extends React.Component<ToasterProps> {
 			/>
 		);
 	}
+
+	queue: Queue;
+
+	nextItem: () => void;
 
 	handlePress = () => {
 		this.nextItem && this.nextItem();
