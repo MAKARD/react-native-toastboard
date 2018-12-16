@@ -50,9 +50,9 @@ export class Queue {
 
 		if (this.afterIteration) {
 			await this.afterIteration();
-
-			this.process();
 		}
+
+		this.process();
 	}
 
 	start = () => {

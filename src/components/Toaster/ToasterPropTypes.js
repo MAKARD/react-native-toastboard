@@ -6,6 +6,8 @@ import { BaseAnimation, SlideUp } from "react-native-toastboard/animations";
 // $FlowFixMe
 import type { BaseAnimationInterface } from "react-native-toastboard/animations";
 
+import { ToasterStyles } from "./ToasterStyles";
+
 export interface ToasterProps {
 	onHide?: ?() => void;
 	onShow?: ?() => void;
@@ -34,16 +36,9 @@ export const ToasterPropTypes = {
 
 export const ToasterDefaultProps = {
 	/* eslint-disable-next-line no-magic-numbers */
-	animation: new SlideUp(-50, 0),
+	animation: new SlideUp(-57, 0),
 
 	duration: 2000,
 
-	style: {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		right: 0,
-
-		zIndex: 1,
-	}
+	style: ToasterStyles
 };
