@@ -1,10 +1,8 @@
 // @flow
 import PropTypes from "prop-types";
 
-// $FlowFixMe
-import { BaseAnimation, SlideY } from "react-native-toastboard/animations";
-// $FlowFixMe
-import type { BaseAnimationInterface } from "react-native-toastboard/animations";
+import { BaseAnimation, SlideY } from "../../../animations";
+import type { BaseAnimationInterface } from "../../../animations";
 
 import { ToasterStyles } from "./ToasterStyles";
 

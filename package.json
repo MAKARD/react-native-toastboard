@@ -38,8 +38,6 @@
       "animations/**/*.js"
     ],
     "coveragePathIgnorePatterns": [
-      "/core.js",
-      "/core-types.js",
       "/node_modules/"
     ],
     "transform": {

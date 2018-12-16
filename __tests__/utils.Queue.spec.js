@@ -1,13 +1,11 @@
 /* eslint-disable no-undef */
-import React from "react";
-
 import { Queue } from "../src/utils/Queue";
 
 describe("utils/Queue", () => {
 	test("Should set procces callbacks", () => {
-		const handleIteration = () => {};
-		const handleAfterIteration = () => {};
-		const handleBeforeIteration = () => {};
+		const handleIteration = () => { };
+		const handleAfterIteration = () => { };
+		const handleBeforeIteration = () => { };
 
 		const queue = new Queue({
 			onIteration: handleIteration,
@@ -43,6 +41,19 @@ describe("utils/Queue", () => {
 		expect(spy).toHaveBeenCalledTimes(2);
 	});
 
+	test("Should stop process", () => {
+		const queue = new Queue();
+		const spy = jest.spyOn(queue, "process");
+
+		queue.start();
+		expect(spy).toHaveBeenCalledTimes(1);
+
+		queue.push("test");
+		queue.stop();
+
+		expect(spy).toHaveBeenCalledTimes(1);
+	});
+
 	test("Should execute process callbacks on process", async () => {
 		let onIterationCalled = false;
 		let afterIterationCalled = false;
@@ -58,7 +69,7 @@ describe("utils/Queue", () => {
 		await queue.start();
 
 		expect(onIterationCalled).toBeTruthy();
-		expect(afterIterationCalled).toBeTruthy();	
-		expect(beforeIterationCalled).toBeTruthy();	
+		expect(afterIterationCalled).toBeTruthy();
+		expect(beforeIterationCalled).toBeTruthy();
 	});
 });

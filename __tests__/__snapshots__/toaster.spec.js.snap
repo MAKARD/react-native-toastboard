@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Toaster /> Should render specified children instead default <Toast /> 1`] = `
+<View
+  style={
+    Object {
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+      "zIndex": 1,
+    }
+  }
+>
+  <Text>
+    test
+  </Text>
+</View>
+`;
+
+exports[`<Toaster /> Should render with <TouchableOpacity> 1`] = `
+<View
+  style={
+    Object {
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+      "transform": Array [
+        Object {
+          "translateY": -57,
+        },
+      ],
+      "zIndex": 1,
+    }
+  }
+>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  />
+</View>
+`;
+
+exports[`<Toaster /> Should render without <TouchableOpacity> 1`] = `
+<View
+  style={
+    Object {
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+      "transform": Array [
+        Object {
+          "translateY": -57,
+        },
+      ],
+      "zIndex": 1,
+    }
+  }
+/>
+`;

@@ -31,7 +31,9 @@ export class Queue {
 	}
 
 	process = async () => {
-		this.active = true;
+		if (!this.active) {
+			return;
+		}
 
 		if (this.beforeIteration) {
 			await this.beforeIteration();
@@ -60,6 +62,12 @@ export class Queue {
 			return;
 		}
 
+		this.active = true;
+
 		return this.process();
+	}
+
+	stop = () => {
+		this.active = false;
 	}
 }

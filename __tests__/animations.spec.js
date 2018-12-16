@@ -1,6 +1,4 @@
 /* eslint-disable no-undef */
-import React from "react";
-
 import { Opacity, SlideX, SlideY } from "../animations";
 
 jest.mock("react-native", () => ({

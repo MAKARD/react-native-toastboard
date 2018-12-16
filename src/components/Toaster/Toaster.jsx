@@ -11,10 +11,12 @@ import { ToasterPropTypes, ToasterDefaultProps } from "./ToasterPropTypes";
 import type { ToasterProps } from "./ToasterPropTypes";
 
 /* eslint-disable-next-line no-unused-vars */
-let createToast = function (message: string, type: string, duration?: number) {
+const unmountedHandler = function (message: string, type: string, duration?: number) {
 	/* eslint-disable-next-line no-console */
 	console.warn("Toaster should be rendered before creating message");
 };
+
+let createToast = unmountedHandler;
 
 export class Toaster extends React.PureComponent<ToasterProps> {
 	static propTypes = ToasterPropTypes;
@@ -50,6 +52,11 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 			this.queue.push({ message, type, duration });
 			this.queue.start();
 		};
+	}
+
+	componentWillUnmount() {
+		createToast = unmountedHandler;
+		this.queue.stop();
 	}
 
 	render() {

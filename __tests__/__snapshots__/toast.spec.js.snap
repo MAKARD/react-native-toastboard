@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Toast /> Should render correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "blue",
+      "padding": 20,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#fff",
+        "textAlign": "center",
+      }
+    }
+  >
+    test
+  </Text>
+</View>
+`;

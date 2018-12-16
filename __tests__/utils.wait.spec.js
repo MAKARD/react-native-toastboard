@@ -1,6 +1,4 @@
 /* eslint-disable no-undef */
-import React from "react";
-
 import { wait } from "../src/utils/wait";
 
 describe("utils/wait", () => {
