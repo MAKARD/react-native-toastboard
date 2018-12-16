@@ -1,8 +1,8 @@
 // @flow
 import PropTypes from "prop-types";
 
-import { BaseAnimation, SlideUp } from "../../animations";
-import type { BaseAnimationInterface } from "../../animations/BaseAnimation";
+import { BaseAnimation, SlideUp } from "../../../animations";
+import type { BaseAnimationInterface } from "../../../animations";
 
 export interface ToasterProps {
 	onHide?: ?() => void;
