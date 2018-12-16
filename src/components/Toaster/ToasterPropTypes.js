@@ -13,10 +13,13 @@ export interface ToasterProps {
 	onShow?: ?() => void;
 
 	animation: BaseAnimationInterface;
+
 	duration?: number;
+	delayBetween?: number;
 
 	children?: (item: { type: string, message: string }) => React$Node;
-	delayBetween?: number;
+
+	hideOnPress?: boolean;
 
 	style?: any;
 }
@@ -25,13 +28,14 @@ export const ToasterPropTypes = {
 	onHide: PropTypes.func,
 	onShow: PropTypes.func,
 
-	children: PropTypes.func,
+	animation: PropTypes.instanceOf(BaseAnimation).isRequired,
 
 	duration: PropTypes.number,
-
 	delayBetween: PropTypes.number,
 
-	animation: PropTypes.instanceOf(BaseAnimation).isRequired
+	children: PropTypes.func,
+
+	hideOnPress: PropTypes.bool
 };
 
 export const ToasterDefaultProps = {

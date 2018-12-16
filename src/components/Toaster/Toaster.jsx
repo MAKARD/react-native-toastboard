@@ -16,7 +16,7 @@ let createToast = function (message: string, type: string, duration?: number) {
 	console.warn("Toaster should be rendered before creating message");
 };
 
-export class Toaster extends React.Component<ToasterProps> {
+export class Toaster extends React.PureComponent<ToasterProps> {
 	static propTypes = ToasterPropTypes;
 	static defaultProps = ToasterDefaultProps;
 
@@ -87,7 +87,7 @@ export class Toaster extends React.Component<ToasterProps> {
 	nextItem: (() => void) | void
 
 	handlePress = () => {
-		if (!this.nextItem) {
+		if (!this.nextItem || !this.props.hideOnPress) {
 			return;
 		}
 
