@@ -2,4 +2,6 @@
 export * from "./BaseAnimation";
 
 export * from "./Opacity";
-export * from "./SlideUp";
+
+export * from "./SlideY";
+export * from "./SlideX";

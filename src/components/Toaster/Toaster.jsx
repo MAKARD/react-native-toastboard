@@ -11,12 +11,14 @@ import { ToasterPropTypes, ToasterDefaultProps } from "./ToasterPropTypes";
 import type { ToasterProps } from "./ToasterPropTypes";
 
 /* eslint-disable-next-line no-unused-vars */
-let createToast = function (message: string, type: string, duration?: number) {
+const unmountedHandler = function (message: string, type: string, duration?: number) {
 	/* eslint-disable-next-line no-console */
 	console.warn("Toaster should be rendered before creating message");
 };
 
-export class Toaster extends React.Component<ToasterProps> {
+let createToast = unmountedHandler;
+
+export class Toaster extends React.PureComponent<ToasterProps> {
 	static propTypes = ToasterPropTypes;
 	static defaultProps = ToasterDefaultProps;
 
@@ -39,7 +41,10 @@ export class Toaster extends React.Component<ToasterProps> {
 	constructor(props: ToasterProps) {
 		super(props);
 
-		this.queue = new Queue(this.handleIteration, () => this.forceUpdate());
+		this.queue = new Queue({
+			onIteration: this.handleIteration,
+			beforeIteration: () => this.forceUpdate()
+		});
 	}
 
 	componentDidMount() {
@@ -49,12 +54,21 @@ export class Toaster extends React.Component<ToasterProps> {
 		};
 	}
 
+	componentWillUnmount() {
+		createToast = unmountedHandler;
+		this.queue.stop();
+	}
+
 	render() {
 		return (
 			<Animated.View style={[this.props.style, this.props.animation.getAnimation()]}>
-				<TouchableOpacity onPress={this.handlePress}>
-					{this.Toast}
-				</TouchableOpacity>
+				{this.props.hideOnPress
+					? (
+						<TouchableOpacity onPress={this.handlePress}>
+							{this.Toast}
+						</TouchableOpacity>
+					)
+					: this.Toast}
 			</Animated.View>
 		);
 	}
@@ -62,6 +76,13 @@ export class Toaster extends React.Component<ToasterProps> {
 	get Toast() {
 		if (!this.queue.list.length) {
 			return null;
+		}
+
+		if (this.props.children) {
+			return this.props.children({
+				type: this.queue.list[0].type,
+				message: this.queue.list[0].message
+			});
 		}
 
 		return (
@@ -74,10 +95,15 @@ export class Toaster extends React.Component<ToasterProps> {
 
 	queue: Queue;
 
-	nextItem: () => void;
+	nextItem: (() => void) | void
 
 	handlePress = () => {
-		this.nextItem && this.nextItem();
+		if (!this.nextItem) {
+			return;
+		}
+
+		this.nextItem();
+		this.nextItem = undefined;
 	}
 
 	handleIteration = async (item: any) => {
@@ -85,12 +111,15 @@ export class Toaster extends React.Component<ToasterProps> {
 		await this.props.animation.forward();
 
 		await wait(item.duration || this.props.duration, (resolve) => {
-			this.nextItem = () => {
-				resolve();
-			};
+			this.nextItem = () => resolve();
 		});
+		this.nextItem = undefined;
 
 		await this.props.animation.backward();
 		this.props.onHide && this.props.onHide();
+
+		if (this.props.delayBetween) {
+			await wait(this.props.delayBetween);
+		}
 	}
 }

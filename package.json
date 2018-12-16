@@ -1,6 +1,6 @@
 {
   "name": "react-native-toastboard",
-  "version": "0.0.0-dev3",
+  "version": "0.0.0-dev10",
   "description": "Toast feedback messages for React Native",
   "main": "src/index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "lint": "./node_modules/.bin/eslint .",
     "flow": "./node_modules/.bin/flow",
     "stage": "npm run lint && npm run flow",
+    "prepublishOnly": "npm run stage && npm run test",
     "install:types": "./node_modules/.bin/flow-typed install --libdefDir ./node_modules/@flow-typed"
   },
   "repository": {
@@ -28,16 +29,20 @@
     "coverageReporters": [
       "lcov"
     ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
     "collectCoverageFrom": [
-      "src/**/*.js"
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "animations/**/*.js"
     ],
     "coveragePathIgnorePatterns": [
-      "/core.js",
-      "/core-types.js",
       "/node_modules/"
     ],
     "transform": {
-      "^.+\\.js$": "<rootDir>/jest-preprocessor.js"
+      "^.+\\.jsx?$": "<rootDir>/jest-preprocessor.js"
     }
   },
   "pre-commit": [
@@ -45,11 +50,11 @@
     "test"
   ],
   "devDependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/core": "^7.1.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
-    "babel-preset-react-native": "^4.0.1",
+    "babel-preset-react-native": "^5.0.2",
     "codecov": "^3.1.0",
     "eslint": "^5.10.0",
     "eslint-config-airbnb": "^17.1.0",

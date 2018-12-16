@@ -3,7 +3,7 @@ import { Animated } from "react-native";
 import { BaseAnimation } from "./BaseAnimation";
 import type { BaseAnimationInterface } from "./BaseAnimation";
 
-export class SlideUp extends BaseAnimation implements BaseAnimationInterface {
+export class SlideX extends BaseAnimation implements BaseAnimationInterface {
 	forward = (): Promise<void> => {
 		return new Promise((resolve) => {
 			Animated.timing(this.value, {
@@ -24,7 +24,7 @@ export class SlideUp extends BaseAnimation implements BaseAnimationInterface {
 
 	getAnimation = () => {
 		return {
-			transform: [{ translateY: this.value }]
+			transform: [{ translateX: this.value }]
 		};
 	}
 }

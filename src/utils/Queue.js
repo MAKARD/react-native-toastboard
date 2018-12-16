@@ -5,18 +5,25 @@ export class Queue {
 
 	onIteration: (item: any) => Promise<any> | void;
 	beforeIteration: () => Promise<any> | void;
+	afterIteration: () => Promise<any> | void;
 
-	constructor(
-		onIteration?: () => Promise<any> | void,
-		beforeIteration?: () => Promise<any> | void
-	) {
-		if (typeof onIteration === "function") {
-			this.onIteration = onIteration;
+	constructor(props: {
+		onIteration?: () => Promise<any> | void;
+		beforeIteration?: () => Promise<any> | void;
+		afterIteration?: () => Promise<any> | void;
+	} = {}) {
+		if (typeof props.onIteration === "function") {
+			this.onIteration = props.onIteration;
 		}
 
-		if (typeof beforeIteration === "function") {
-			this.beforeIteration = beforeIteration;
+		if (typeof props.beforeIteration === "function") {
+			this.beforeIteration = props.beforeIteration;
 		}
+
+		if (typeof props.afterIteration === "function") {
+			this.afterIteration = props.afterIteration;
+		}
+
 	}
 
 	push = (item: any) => {
@@ -24,8 +31,13 @@ export class Queue {
 	}
 
 	process = async () => {
-		this.active = true;
-		await this.beforeIteration();
+		if (!this.active) {
+			return;
+		}
+
+		if (this.beforeIteration) {
+			await this.beforeIteration();
+		}
 
 		if (!this.list.length) {
 			this.active = false;
@@ -38,6 +50,10 @@ export class Queue {
 
 		this.list = this.list.slice(1);
 
+		if (this.afterIteration) {
+			await this.afterIteration();
+		}
+
 		this.process();
 	}
 
@@ -46,6 +62,12 @@ export class Queue {
 			return;
 		}
 
-		this.process();
+		this.active = true;
+
+		return this.process();
+	}
+
+	stop = () => {
+		this.active = false;
 	}
 }
