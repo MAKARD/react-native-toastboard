@@ -1,4 +1,4 @@
-// @flow
+// @flow4
 import PropTypes from "prop-types";
 
 import { BaseAnimation, SlideUp } from "../../animations";
@@ -11,12 +11,16 @@ export interface ToasterProps {
 	animation: BaseAnimationInterface;
 	duration?: number;
 
+	children?: (item: { type: string, message: string }) => $React.Node;
+
 	style?: any;
 }
 
 export const ToasterPropTypes = {
 	onHide: PropTypes.func,
 	onShow: PropTypes.func,
+
+	children: PropTypes.func,
 
 	duration: PropTypes.number,
 

@@ -4,7 +4,10 @@ export function wait(
 	manualResolve?: (resolve: () => void) => void
 ): Promise<void> {
 	return new Promise((resolve) => {
-		setTimeout(resolve, sec);
-		manualResolve && manualResolve(resolve);
+		const timeout = setTimeout(resolve, sec);
+		manualResolve && manualResolve(() => {
+			resolve();
+			clearTimeout(timeout);
+		});
 	});
 }

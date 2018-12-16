@@ -68,6 +68,13 @@ export class Toaster extends React.Component<ToasterProps> {
 			return null;
 		}
 
+		if (this.props.children) {
+			return this.props.children({
+				type: this.queue.list[0].type,
+				message: this.queue.list[0].message
+			});
+		}
+
 		return (
 			<Toast
 				type={this.queue.list[0].type}
@@ -85,9 +92,7 @@ export class Toaster extends React.Component<ToasterProps> {
 		this.props.onShow && this.props.onShow();
 
 		await wait(item.duration || this.props.duration, (resolve) => {
-			this.nextItem = () => {
-				resolve();
-			};
+			this.nextItem = () => resolve();
 		});
 
 		await this.props.animation.backward();
