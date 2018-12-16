@@ -13,6 +13,8 @@ export interface ToasterProps {
 	animation: BaseAnimationInterface;
 	duration?: number;
 
+	delayBetween?: number;
+
 	style?: any;
 }
 
@@ -21,6 +23,8 @@ export const ToasterPropTypes = {
 	onShow: PropTypes.func,
 
 	duration: PropTypes.number,
+
+	delayBetween: PropTypes.number,
 
 	animation: PropTypes.instanceOf(BaseAnimation).isRequired
 };

@@ -92,5 +92,9 @@ export class Toaster extends React.Component<ToasterProps> {
 
 		await this.props.animation.backward();
 		this.props.onHide && this.props.onHide();
+
+		if (this.props.delayBetween) {
+			await wait(this.props.delayBetween);
+		}
 	}
 }
