@@ -55,9 +55,13 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 	render() {
 		return (
 			<Animated.View style={[this.props.style, this.props.animation.getAnimation()]}>
-				<TouchableOpacity onPress={this.handlePress}>
-					{this.Toast}
-				</TouchableOpacity>
+				{this.props.hideOnPress
+					? (
+						<TouchableOpacity onPress={this.handlePress}>
+							{this.Toast}
+						</TouchableOpacity>
+					)
+					: this.Toast}
 			</Animated.View>
 		);
 	}
@@ -87,7 +91,7 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 	nextItem: (() => void) | void
 
 	handlePress = () => {
-		if (!this.nextItem || !this.props.hideOnPress) {
+		if (!this.nextItem) {
 			return;
 		}
 
