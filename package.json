@@ -1,6 +1,6 @@
 {
   "name": "react-native-toastboard",
-  "version": "0.0.0-dev10",
+  "version": "0.0.0-dev11",
   "description": "Toast feedback messages for React Native",
   "main": "src/index.js",
   "scripts": {

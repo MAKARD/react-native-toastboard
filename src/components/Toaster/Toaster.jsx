@@ -49,7 +49,11 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 
 	componentDidMount() {
 		createToast = (message: string, type: string, duration?: number) => {
-			this.queue.push({ message, type, duration });
+			const transformed = this.props.middleware
+				? this.props.middleware({ message, type, duration })
+				: message;
+
+			this.queue.push({ message: transformed, type, duration });
 			this.queue.start();
 		};
 	}
