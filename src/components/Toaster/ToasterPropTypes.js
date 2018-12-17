@@ -16,6 +16,7 @@ export interface ToasterProps {
 	delayBetween?: number;
 
 	children?: (item: { type: string, message: string }) => React$Node;
+	middleware?: (item: { type: string, message: string, duration?: number }) => string;
 
 	hideOnPress?: boolean;
 

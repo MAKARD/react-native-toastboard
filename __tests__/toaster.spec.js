@@ -50,7 +50,22 @@ describe("<Toaster />", () => {
             </Toaster>
         );
 
-        Toaster.info("test");
+        Toaster.info("test", 0);
+
+        expect(tree.toJSON()).toMatchSnapshot();
+
+        tree.unmount();
+    });
+
+    test("Should apply specified middleware", () => {
+        const tree = renderer.create(
+            <Toaster
+                animation={mockAnimation}
+                middleware={() => "transformed"}
+            />
+        );
+
+        Toaster.info("test", 0);
 
         expect(tree.toJSON()).toMatchSnapshot();
 
