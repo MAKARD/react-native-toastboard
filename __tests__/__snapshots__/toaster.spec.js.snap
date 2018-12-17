@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Toaster /> Should apply specified middleware 1`] = `
+<View
+  style={
+    Object {
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+      "zIndex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "blue",
+        "padding": 20,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#fff",
+          "textAlign": "center",
+        }
+      }
+    >
+      transformed
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`<Toaster /> Should render specified children instead default <Toast /> 1`] = `
 <View
   style={
