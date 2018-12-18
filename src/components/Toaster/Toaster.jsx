@@ -3,6 +3,7 @@ import * as React from "react";
 import { Animated, TouchableOpacity } from "react-native";
 
 import { Queue } from "../../utils/Queue";
+import { Timer } from "../../utils/Timer";
 import { wait } from "../../utils/wait";
 
 import { Toast, ToastType } from "../Toast";
@@ -38,6 +39,11 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 		createToast(message, ToastType.DEBUG, duration);
 	}
 
+	queue: Queue;
+	nextItem: (() => void) | void;
+
+	timer = new Timer();
+
 	constructor(props: ToasterProps) {
 		super(props);
 
@@ -61,6 +67,7 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 	componentWillUnmount() {
 		createToast = unmountedHandler;
 		this.queue.stop();
+		this.timer.stop();
 	}
 
 	render() {
@@ -97,27 +104,15 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 		);
 	}
 
-	queue: Queue;
-
-	nextItem: (() => void) | void
-
 	handlePress = () => {
-		if (!this.nextItem) {
-			return;
-		}
-
-		this.nextItem();
-		this.nextItem = undefined;
+		this.timer.stop();
 	}
 
 	handleIteration = async (item: any) => {
 		this.props.onShow && this.props.onShow();
 		await this.props.animation.forward();
 
-		await wait(item.duration || this.props.duration, (resolve) => {
-			this.nextItem = () => resolve();
-		});
-		this.nextItem = undefined;
+		await this.timer.start(item.duration || this.props.duration);
 
 		await this.props.animation.backward();
 		this.props.onHide && this.props.onHide();

@@ -21,18 +21,4 @@ describe("utils/wait", () => {
 
 		jest.clearAllTimers();
 	});
-
-	test("Should manual resolve promise on callback", () => {
-		jest.useFakeTimers();
-
-		wait(100, (resolve) => {
-			resolve();
-		});
-
-		expect(setTimeout).toHaveBeenCalledTimes(1);
-		expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
-		expect(clearTimeout).toHaveBeenCalledTimes(1);
-
-		jest.clearAllTimers();
-	});
 });
