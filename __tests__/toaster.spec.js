@@ -27,15 +27,7 @@ describe("<Toaster />", () => {
         global.console = consoleOrigin;
     });
 
-    test("Should render without <TouchableOpacity>", () => {
-        const tree = renderer.create(<Toaster />);
-
-        expect(tree.toJSON()).toMatchSnapshot();
-
-        tree.unmount();
-    });
-
-    test("Should render with <TouchableOpacity>", () => {
+    test("Should render correctly", () => {
         const tree = renderer.create(<Toaster hideOnPress />);
 
         expect(tree.toJSON()).toMatchSnapshot();
@@ -105,19 +97,6 @@ describe("<Toaster />", () => {
         spy.mockClear();
     });
 
-    test("Should execute 'nextItem' method if it exist onPress", () => {
-        const instance = new Toaster({ animation: mockAnimation });
-        instance.nextItem = () => { };
-
-        const spy = jest.spyOn(instance, "nextItem");
-
-        instance.handlePress();
-        expect(spy).toHaveBeenCalledTimes(1);
-
-        instance.handlePress();
-        expect(spy).toHaveBeenCalledTimes(1);
-    });
-
     test("Should execute specified onShow/onHide props", async () => {
         let showed = false;
         let hided = false;
@@ -144,22 +123,44 @@ describe("<Toaster />", () => {
 
         await instance.handleIteration({ duration: 0 });
 
-        expect(spy).toHaveBeenCalledTimes(2);
+        expect(spy).toHaveBeenCalledTimes(1);
         spy.mockClear();
     });
 
-    test("Should define 'nextItem' method on each iteration", async () => {
+    test("Should call onPress/onHoldStart/onHoldEnd callback", async () => {
+        let press = false;
+        let holdEnd = false;
+        let holdStart = false;
+
         const instance = new Toaster({
-            animation: mockAnimation
+            animation: mockAnimation,
+            onPress: () => { press = true },
+            onHoldEnd: () => { holdEnd = true },
+            onHoldStart: () => { holdStart = true }
         });
 
-        instance.handleIteration({ duration: 2 });
-        await wait(1);
-        expect(instance.nextItem).toBeInstanceOf(Function);
+        instance.handlePress();
+        expect(press).toBeTruthy();
 
-        instance.nextItem();
-        await wait(1);
+        instance.handleHoldStart();
+        expect(holdStart).toBeTruthy();
 
-        expect(instance.nextItem).toBeUndefined();
+        instance.handleHoldEnd();
+        expect(holdEnd).toBeTruthy();
     });
+
+    test("Should stop timer if hideOnPress is true", async () => {
+        const instance = new Toaster({
+            animation: mockAnimation,
+            hideOnPress: true
+        });
+
+        const spy = jest.spyOn(instance.timer, "stop");
+
+        instance.handlePress();
+
+        expect(spy).toHaveBeenCalledTimes(1);
+        spy.mockClear();
+    });
+
 });

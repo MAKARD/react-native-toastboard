@@ -1,14 +1,16 @@
 // @flow
 import * as React from "react";
-import { Animated, TouchableOpacity } from "react-native";
+import { Animated } from "react-native";
+
+import type { ToasterProps } from "./ToasterPropTypes";
 
 import { Queue } from "../../utils/Queue";
+import { Timer } from "../../utils/Timer";
 import { wait } from "../../utils/wait";
 
 import { Toast, ToastType } from "../Toast";
-
+import { TouchController } from "../TouchController";
 import { ToasterPropTypes, ToasterDefaultProps } from "./ToasterPropTypes";
-import type { ToasterProps } from "./ToasterPropTypes";
 
 /* eslint-disable-next-line no-unused-vars */
 const unmountedHandler = function (message: string, type: string, duration?: number) {
@@ -38,6 +40,11 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 		createToast(message, ToastType.DEBUG, duration);
 	}
 
+	queue: Queue;
+	nextItem: (() => void) | void;
+
+	timer = new Timer();
+
 	constructor(props: ToasterProps) {
 		super(props);
 
@@ -48,7 +55,7 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 	}
 
 	componentDidMount() {
-		createToast = (message: string, type: string, duration?: number) => {
+		createToast = (message: string, type: string, duration?: ?number) => {
 			const transformed = this.props.middleware
 				? this.props.middleware({ message, type, duration })
 				: message;
@@ -61,18 +68,19 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 	componentWillUnmount() {
 		createToast = unmountedHandler;
 		this.queue.stop();
+		this.timer.stop();
 	}
 
 	render() {
 		return (
 			<Animated.View style={[this.props.style, this.props.animation.getAnimation()]}>
-				{this.props.hideOnPress
-					? (
-						<TouchableOpacity onPress={this.handlePress}>
-							{this.Toast}
-						</TouchableOpacity>
-					)
-					: this.Toast}
+				<TouchController
+					onHoldStart={this.handleHoldStart}
+					onHoldEnd={this.handleHoldEnd}
+					onPress={this.handlePress}
+				>
+					{this.Toast}
+				</TouchController>
 			</Animated.View>
 		);
 	}
@@ -97,30 +105,34 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 		);
 	}
 
-	queue: Queue;
+	handleHoldStart = (event: any) => {
+		this.props.onHoldStart && this.props.onHoldStart(event, this.queue.list[0]);
+		this.timer.pause();
+	}
 
-	nextItem: (() => void) | void
+	handleHoldEnd = (event: any) => {
+		this.props.onHoldEnd && this.props.onHoldEnd(event, this.queue.list[0]);
+		this.timer.resume();
+	}
 
-	handlePress = () => {
-		if (!this.nextItem) {
+	handlePress = (event: any) => {
+		this.props.onPress && this.props.onPress(event, this.queue.list[0]);
+
+		if (!this.props.hideOnPress) {
 			return;
 		}
 
-		this.nextItem();
-		this.nextItem = undefined;
+		this.timer.stop();
 	}
 
 	handleIteration = async (item: any) => {
-		this.props.onShow && this.props.onShow();
+		this.props.onShow && this.props.onShow(item);
 		await this.props.animation.forward();
 
-		await wait(item.duration || this.props.duration, (resolve) => {
-			this.nextItem = () => resolve();
-		});
-		this.nextItem = undefined;
+		await this.timer.start(item.duration || this.props.duration);
 
 		await this.props.animation.backward();
-		this.props.onHide && this.props.onHide();
+		this.props.onHide && this.props.onHide(item);
 
 		if (this.props.delayBetween) {
 			await wait(this.props.delayBetween);

@@ -22,8 +22,19 @@ Toast feedback messages for React Native
 Accepts following props: 
 
 `onHide` - callback that executes `AFTER` hide message. `Optional`.
+Takes native event as first argument and `message item` as second argument.
 
 `onShow` - callback that executes `BEFORE` show message. `Optional`.
+Takes native event as first argument and [message item](#Message-item) as second argument.
+
+`onPress` - callback that executes on container press. `Optional`.
+Takes native event as first argument and [message item](#Message-item) as second argument.
+
+`onHoldStart` - callback that executes on container press and hold. `Optional`.
+Takes native event as first argument and [message item](#Message-item) as second argument.
+
+`onHoldEnd` - callback that executes on container press and release. `Optional`.
+Takes native event as first argument and [message item](#Message-item) as second argument.
 
 `duration` - specifies `common` display time in `msec` for message. `Optional`. Default - `2000`.
 
@@ -36,14 +47,7 @@ Accepts following props:
 `animation` - specifies animation that applies to hide/show message. `Optional`. Default - [SlideY](./animations/SlideY.js). See more details below.
 
 `middleware` - executes before message will be added to queue. Should return `string`. `Optional`. 
-Takes message item as argument:
-```ts
-item: {
-	message: string;
-	type: "INFO" | "ERROR" | "SUCCESS" | "DEBUG";
-	duration?: number;
-}
-```
+Takes [message item](#Message-item) as argument.
 
 `Toaster` can takes children only as `function`:
 ```ts
@@ -51,6 +55,20 @@ item: {
 ```
 
 In this case, default `Toast` will be replaced with returned component.
+
+*NOTE: To stop hiding timer, you can tap and hold touch on container as long as you want*
+
+##### Message item
+
+Message item represents following interface:
+
+```ts
+item: {
+	message: string;
+	type: "INFO" | "ERROR" | "SUCCESS" | "DEBUG";
+	duration?: number;
+}
+```
 
 #### Creating message
 

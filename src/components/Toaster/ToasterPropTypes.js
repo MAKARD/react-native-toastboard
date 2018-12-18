@@ -6,17 +6,27 @@ import type { BaseAnimationInterface } from "../../../animations";
 
 import { ToasterStyles } from "./ToasterStyles";
 
+interface Item {
+	type: string;
+	message: string;
+	duration?: ?number;
+}
+
 export interface ToasterProps {
-	onHide?: ?() => void;
-	onShow?: ?() => void;
+	onHide?: (item: Item) => void;
+	onShow?: (item: Item) => void;
+
+	onPress?: (event: any, item: Item) => void;
+	onHoldEnd?: (event: any, item: Item) => void;
+	onHoldStart?: (event: any, item: Item) => void;
 
 	animation: BaseAnimationInterface;
 
 	duration?: number;
 	delayBetween?: number;
 
-	children?: (item: { type: string, message: string }) => React$Node;
-	middleware?: (item: { type: string, message: string, duration?: number }) => string;
+	children?: (item: Item) => React$Node;
+	middleware?: (item: Item) => string;
 
 	hideOnPress?: boolean;
 
@@ -26,6 +36,10 @@ export interface ToasterProps {
 export const ToasterPropTypes = {
 	onHide: PropTypes.func,
 	onShow: PropTypes.func,
+
+	onPress: PropTypes.func,
+	onHoldEnd: PropTypes.func,
+	onHoldStart: PropTypes.func,
 
 	animation: PropTypes.instanceOf(BaseAnimation).isRequired,
 
