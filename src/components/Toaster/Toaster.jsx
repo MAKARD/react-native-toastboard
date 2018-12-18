@@ -2,14 +2,15 @@
 import * as React from "react";
 import { Animated, TouchableOpacity } from "react-native";
 
+import type { ToasterProps } from "./ToasterPropTypes";
+
 import { Queue } from "../../utils/Queue";
 import { Timer } from "../../utils/Timer";
 import { wait } from "../../utils/wait";
 
 import { Toast, ToastType } from "../Toast";
-
+import { TouchController } from "../TouchController";
 import { ToasterPropTypes, ToasterDefaultProps } from "./ToasterPropTypes";
-import type { ToasterProps } from "./ToasterPropTypes";
 
 /* eslint-disable-next-line no-unused-vars */
 const unmountedHandler = function (message: string, type: string, duration?: number) {
@@ -73,13 +74,20 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 	render() {
 		return (
 			<Animated.View style={[this.props.style, this.props.animation.getAnimation()]}>
-				{this.props.hideOnPress
+				{/* {this.props.hideOnPress
 					? (
 						<TouchableOpacity onPress={this.handlePress}>
 							{this.Toast}
 						</TouchableOpacity>
 					)
-					: this.Toast}
+					: this.Toast} */}
+				<TouchController
+					onHoldEnd={this.handleHoldEnd}
+					onHoldStart={this.handleHoldStart}
+					onPress={this.handlePress}
+				>
+					{this.Toast}
+				</TouchController>
 			</Animated.View>
 		);
 	}
@@ -102,6 +110,14 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 				message={this.queue.list[0].message}
 			/>
 		);
+	}
+
+	handleHoldStart = () => {
+		this.timer.pause();
+	}
+
+	handleHoldEnd = () => {
+		this.timer.resume();
 	}
 
 	handlePress = () => {
