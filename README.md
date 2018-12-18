@@ -49,6 +49,24 @@ item: {
 
 In this case, default `Toast` will be replaced with returned component.
 
+#### Creating message
+
+`Toaster` created around `singleton` pattern. So make sure that you have only one instance.
+
+`Toaster` have several static methods, that creates messages:
+
+```ts
+/*
+	first argument specifies message. REQUIRED.
+	second argument specifies duration. OPTIONAL. By default - value from props.
+*/
+
+Toaster.info("message", 500);
+Toaster.error("message", 500);
+Toaster.success("message", 500);
+Toaster.debug("message", 500);
+```
+
 ## Animation
 
 There are several built-in animations: 
