@@ -1,6 +1,6 @@
 {
   "name": "react-native-toastboard",
-  "version": "0.0.0-dev11",
+  "version": "1.0.0-rc1",
   "description": "Toast feedback messages for React Native",
   "main": "src/index.js",
   "scripts": {
@@ -20,6 +20,15 @@
   "bugs": {
     "url": "https://github.com/MAKARD/react-native-toastboard/issues"
   },
+  "keywords": [
+    "native",
+    "react",
+    "react-native",
+    "toast",
+    "toastboard",
+    "toaster",
+    "notifications"
+  ],
   "homepage": "https://github.com/MAKARD/react-native-toastboard#readme",
   "jest": {
     "notify": true,
