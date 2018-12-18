@@ -53,9 +53,9 @@ In this case, default `Toast` will be replaced with returned component.
 
 There are several built-in animations: 
 
- - [Opacity](./animations/Opacity)
- - [SlideX](./animations/SlideX)
- - [SlideY](./animations/SlideY)
+ - [Opacity](./animations/Opacity.js)
+ - [SlideX](./animations/SlideX.js)
+ - [SlideY](./animations/SlideY.js)
 
 ```ts
 /*
