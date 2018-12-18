@@ -41,7 +41,7 @@ export const ToasterDefaultProps = {
 	/* eslint-disable-next-line no-magic-numbers */
 	animation: new SlideY(-57, 0),
 
-	duration: 10000,
+	duration: 2000,
 
 	style: ToasterStyles.container
 };

@@ -1,10 +1,8 @@
 // @flow
-
 export class Timer {
-	delay: number;
-	time: number;
-
-	stop: () => void = () => {};
+	stop: () => void = () => { };
+	pause: () => void = () => { };
+	resume: () => void = () => { };
 
 	/* eslint-disable-next-line no-magic-numbers */
 	start = (delay: number = 2000): Promise<void> => {
@@ -13,25 +11,35 @@ export class Timer {
 				return resolve();
 			}
 
-			this.delay = delay;
-			this.time = Date.now();
-			const timeout = setTimeout(resolve, this.delay);
+			const time = Date.now();
+			let remaining = delay;
+
+			let timeout = setTimeout(resolve, delay);
 
 			this.stop = () => {
 				resolve();
 				clearTimeout(timeout);
-				this.delay = 0;
+
+				this.pause = () => { };
+				this.resume = () => { };
+			};
+
+			this.pause = () => {
+				remaining -= Date.now() - time;
+				if (remaining <= 0) {
+					return this.stop();
+				}
+
+				clearTimeout(timeout);
+			};
+
+			this.resume = () => {
+				if (remaining <= 0) {
+					return this.stop();
+				}
+
+				timeout = setTimeout(this.stop, remaining);
 			};
 		});
 	}
-
-	pause = () => {
-		this.delay = Date.now() - this.time;
-		this.stop();
-	}
-
-	resume = () => {
-		this.start(this.delay);
-	}
-
 }
