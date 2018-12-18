@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { Animated, TouchableOpacity } from "react-native";
+import { Animated } from "react-native";
 
 import type { ToasterProps } from "./ToasterPropTypes";
 
@@ -55,7 +55,7 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 	}
 
 	componentDidMount() {
-		createToast = (message: string, type: string, duration?: number) => {
+		createToast = (message: string, type: string, duration?: ?number) => {
 			const transformed = this.props.middleware
 				? this.props.middleware({ message, type, duration })
 				: message;
@@ -74,16 +74,9 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 	render() {
 		return (
 			<Animated.View style={[this.props.style, this.props.animation.getAnimation()]}>
-				{/* {this.props.hideOnPress
-					? (
-						<TouchableOpacity onPress={this.handlePress}>
-							{this.Toast}
-						</TouchableOpacity>
-					)
-					: this.Toast} */}
 				<TouchController
-					onHoldEnd={this.handleHoldEnd}
 					onHoldStart={this.handleHoldStart}
+					onHoldEnd={this.handleHoldEnd}
 					onPress={this.handlePress}
 				>
 					{this.Toast}
@@ -112,26 +105,34 @@ export class Toaster extends React.PureComponent<ToasterProps> {
 		);
 	}
 
-	handleHoldStart = () => {
+	handleHoldStart = (event: any) => {
+		this.props.onHoldStart && this.props.onHoldStart(event, this.queue.list[0]);
 		this.timer.pause();
 	}
 
-	handleHoldEnd = () => {
+	handleHoldEnd = (event: any) => {
+		this.props.onHoldEnd && this.props.onHoldEnd(event, this.queue.list[0]);
 		this.timer.resume();
 	}
 
-	handlePress = () => {
+	handlePress = (event: any) => {
+		this.props.onPress && this.props.onPress(event, this.queue.list[0]);
+
+		if (!this.props.hideOnPress) {
+			return;
+		}
+
 		this.timer.stop();
 	}
 
 	handleIteration = async (item: any) => {
-		this.props.onShow && this.props.onShow();
+		this.props.onShow && this.props.onShow(item);
 		await this.props.animation.forward();
 
 		await this.timer.start(item.duration || this.props.duration);
 
 		await this.props.animation.backward();
-		this.props.onHide && this.props.onHide();
+		this.props.onHide && this.props.onHide(item);
 
 		if (this.props.delayBetween) {
 			await wait(this.props.delayBetween);

@@ -13,46 +13,44 @@ exports[`<Toaster /> Should apply specified middleware 1`] = `
   }
 >
   <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "backgroundColor": "blue",
-        "padding": 20,
+        "opacity": 1,
       }
     }
   >
-    <Text
+    <View
       style={
         Object {
-          "color": "#fff",
-          "textAlign": "center",
+          "backgroundColor": "blue",
+          "padding": 20,
         }
       }
     >
-      transformed
-    </Text>
+      <Text
+        style={
+          Object {
+            "color": "#fff",
+            "textAlign": "center",
+          }
+        }
+      >
+        transformed
+      </Text>
+    </View>
   </View>
 </View>
 `;
 
-exports[`<Toaster /> Should render specified children instead default <Toast /> 1`] = `
-<View
-  style={
-    Object {
-      "left": 0,
-      "position": "absolute",
-      "right": 0,
-      "top": 0,
-      "zIndex": 1,
-    }
-  }
->
-  <Text>
-    test
-  </Text>
-</View>
-`;
-
-exports[`<Toaster /> Should render with <TouchableOpacity> 1`] = `
+exports[`<Toaster /> Should render correctly 1`] = `
 <View
   style={
     Object {
@@ -87,7 +85,7 @@ exports[`<Toaster /> Should render with <TouchableOpacity> 1`] = `
 </View>
 `;
 
-exports[`<Toaster /> Should render without <TouchableOpacity> 1`] = `
+exports[`<Toaster /> Should render specified children instead default <Toast /> 1`] = `
 <View
   style={
     Object {
@@ -95,13 +93,28 @@ exports[`<Toaster /> Should render without <TouchableOpacity> 1`] = `
       "position": "absolute",
       "right": 0,
       "top": 0,
-      "transform": Array [
-        Object {
-          "translateY": -57,
-        },
-      ],
       "zIndex": 1,
     }
   }
-/>
+>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <Text>
+      test
+    </Text>
+  </View>
+</View>
 `;

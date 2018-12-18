@@ -36,23 +36,23 @@ export class TouchController extends React.Component<TouchControllerProps, Touch
 		return (this.state.timestamp + this.props.pressEventDuration) >= Date.now();
 	}
 
-	handlePressIn = () => {
+	handlePressIn = (event: any) => {
 		clearTimeout(this.timer);
 
 		this.setState({
 			timestamp: Date.now()
 		});
 
-		this.timer = setTimeout(this.props.onHoldStart, this.props.pressEventDuration);
+		this.timer = setTimeout(() => this.props.onHoldStart(event), this.props.pressEventDuration);
 	}
 
-	hanldePressOut = () => {
+	hanldePressOut = (event: any) => {
 		if (this.isPressEvent) {
 			clearTimeout(this.timer);
 
-			return this.props.onPress();
+			return this.props.onPress(event);
 		}
 
-		this.props.onHoldEnd();
+		this.props.onHoldEnd(event);
 	}
 }

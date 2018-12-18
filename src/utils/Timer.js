@@ -14,7 +14,7 @@ export class Timer {
 			const time = Date.now();
 			let remaining = delay;
 
-			let timeout = setTimeout(resolve, delay);
+			let timeout = setTimeout(() => this.stop(), delay);
 
 			this.stop = () => {
 				resolve();
@@ -26,17 +26,11 @@ export class Timer {
 
 			this.pause = () => {
 				remaining -= Date.now() - time;
-				if (remaining <= 0) {
-					return this.stop();
-				}
 
 				clearTimeout(timeout);
 			};
 
 			this.resume = () => {
-				if (remaining <= 0) {
-					return this.stop();
-				}
 
 				timeout = setTimeout(this.stop, remaining);
 			};

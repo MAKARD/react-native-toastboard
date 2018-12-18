@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 export interface TouchControllerProps {
 	pressEventDuration?: number;
 
-	onPress: () => void;
-	onHoldEnd: () => void;
-	onHoldStart: () => void;
+	onPress: (event: any) => void;
+	onHoldEnd: (event: any) => void;
+	onHoldStart: (event: any) => void;
 
 	children: React$Node;
 }
