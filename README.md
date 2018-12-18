@@ -1,5 +1,8 @@
 # React-Native-Toastboard
 
+[![Build Status](https://travis-ci.org/MAKARD/react-native-toastboard.svg?branch=master)](https://travis-ci.org/MAKARD/react-native-toastboard)
+[![codecov](https://codecov.io/gh/MAKARD/react-native-toastboard/branch/master/graph/badge.svg)](https://codecov.io/gh/MAKARD/react-native-toastboard)
+
 Toast feedback messages for React Native
 
 # Installation
