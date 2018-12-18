@@ -51,7 +51,7 @@ In this case, default `Toast` will be replaced with returned component.
 
 ## Animation
 
-There are several build-in animations: 
+There are several built-in animations: 
 
  - [Opacity](./animations/Opacity)
  - [SlideX](./animations/SlideX)
@@ -78,7 +78,7 @@ import { Animated } from "react-native";
 class MyCustomAnimation extends BaseAnimation {
 	/*
 		1. Animated.timing SHOULD BE WRAPPED INTO PROMISE.
-		2. getAnimation SHOULD RETURN VALID OBJECT STYLES
+		2. getAnimation SHOULD RETURN VALID OBJECT STYLES.
 	*/
 	
 	// start animation forward
@@ -114,4 +114,4 @@ class MyCustomAnimation extends BaseAnimation {
 <Toaster animation={new MyCustomAnimation(-2, 15)} />
 ```
 
-*NOTE: import animations from `/animations` sub directory*
+*NOTE: import animations from `/animations` subdirectory*
