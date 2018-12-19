@@ -95,6 +95,7 @@ There are several built-in animations:
  - [Opacity](./animations/Opacity.js)
  - [SlideX](./animations/SlideX.js)
  - [SlideY](./animations/SlideY.js)
+ - [Zoom](./animations/Zoom.js)
 
 ```ts
 /*
