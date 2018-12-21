@@ -4,6 +4,7 @@ exports[`<Toaster /> Should apply specified middleware 1`] = `
 <View
   style={
     Object {
+      "elevation": 1,
       "left": 0,
       "position": "absolute",
       "right": 0,
@@ -54,6 +55,7 @@ exports[`<Toaster /> Should render correctly 1`] = `
 <View
   style={
     Object {
+      "elevation": 1,
       "left": 0,
       "position": "absolute",
       "right": 0,
@@ -89,6 +91,7 @@ exports[`<Toaster /> Should render specified children instead default <Toast /> 
 <View
   style={
     Object {
+      "elevation": 1,
       "left": 0,
       "position": "absolute",
       "right": 0,
