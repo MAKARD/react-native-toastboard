@@ -7,6 +7,7 @@ export const ToasterStyles = StyleSheet.create({
 		left: 0,
 		right: 0,
 
-		zIndex: 1
+		zIndex: 1,
+		elevation: 1
 	}
 });
