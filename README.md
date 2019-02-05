@@ -155,3 +155,110 @@ class MyCustomAnimation extends BaseAnimation {
 ```
 
 *NOTE: import animations from `/animations` subdirectory*
+
+### Example
+
+```jsx
+import * as React from "react";
+import { Animated, Text, Image, Dimensions, StatusBar } from "react-native";
+
+import { SlideX, Zoom } from "react-native-toastboard/animations";
+import { Toaster as ToastBoard, ToastType } from "react-native-toastboard";
+
+import { Images } from "@assets/Images";
+
+import { styles } from "./styles";
+
+export class Toaster extends React.Component {
+	appearAnimation = new SlideX(Dimensions.get("screen").width, 0);
+	/* eslint-disable-next-line no-magic-numbers */
+	holdAnimation = new Zoom(1, .95, { duration: 200, useNativeDriver: true });
+
+	render() {
+		return (
+			<ToastBoard
+				hideOnPress
+
+				onHide={this.handleHide}
+				onShow={this.handleShow}
+				onHoldEnd={this.holdAnimation.backward}
+				onHoldStart={this.holdAnimation.forward}
+
+				middleware={this.toastMiddleware}
+
+				animation={this.appearAnimation}
+			>
+				{this.renderToast}
+			</ToastBoard>
+		);
+	}
+
+	toastMiddleware = ({ type, message }) => {
+		if (type !== ToastType.ERROR) {
+			return message;
+		}
+
+		if (typeof message === "string") {
+			return message;
+		}
+
+		if (message.response && message.response.data && message.response.data.message) {
+			return message.response.data.message;
+		} else {
+			return "Some error was happened :(";
+		}
+	}
+
+	renderToast = ({ type, message }) => {
+		switch (type) {
+			case ToastType.INFO: {
+				return (
+					<Animated.View style={[styles.info.container, this.holdAnimation.getAnimation()]}>
+						<Image
+							resizeMode="cover"
+							source={Images.iconFaq}
+							style={styles.info.icon}
+						/>
+						<Text style={styles.info.text}>{message}</Text>
+					</Animated.View>
+				);
+			}
+			case ToastType.ERROR: {
+				return (
+					<Animated.View style={[styles.error.container, this.holdAnimation.getAnimation()]}>
+						<Image
+							resizeMode="cover"
+							source={Images.iconWarning}
+							style={styles.error.icon}
+						/>
+						<Text style={styles.error.text}>{message}</Text>
+					</Animated.View>
+				);
+			}
+			case ToastType.SUCCESS: {
+				return (
+					<Animated.View style={[styles.success.container, this.holdAnimation.getAnimation()]}>
+						<Image
+							resizeMode="cover"
+							source={Images.iconCheck}
+							style={styles.success.icon}
+						/>
+						<Text style={styles.success.text}>{message}</Text>
+					</Animated.View>
+				);
+			}
+			default: {
+				throw new Error("Unknown type given");
+			}
+		}
+	}
+
+	handleHide = () => {
+		StatusBar.setHidden(false);
+	}
+
+	handleShow = () => {
+		StatusBar.setHidden(true);
+	}
+}
+```
