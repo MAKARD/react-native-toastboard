@@ -1,6 +1,6 @@
 {
   "name": "react-native-toastboard",
-  "version": "1.0.0-rc4",
+  "version": "1.0.1",
   "description": "Toast feedback messages for React Native",
   "main": "src/index.js",
   "scripts": {
@@ -62,7 +62,7 @@
     "@babel/core": "^7.1.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^24.8.0",
     "babel-preset-react-native": "^5.0.2",
     "codecov": "^3.1.0",
     "eslint": "^5.10.0",
@@ -74,12 +74,12 @@
     "eslint-plugin-react": "^7.11.1",
     "flow-bin": "^0.89.0",
     "flow-typed": "^2.5.1",
-    "jest": "^23.6.0",
+    "jest": "^24.8.0",
     "metro-react-native-babel-preset": "^0.48.5",
     "pre-commit": "^1.2.2",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
-    "react-native": "^0.57.8",
+    "react-native": "^0.59.9",
     "react-test-renderer": "^16.6.3",
     "schedule": "^0.4.0"
   },
