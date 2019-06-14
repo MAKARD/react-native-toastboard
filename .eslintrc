@@ -35,6 +35,7 @@
                 ]
             }
         ],
+        "react/jsx-filename-extension": "off",
         "react/sort-comp": [
             "error",
             {
