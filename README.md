@@ -124,50 +124,50 @@ export class Toaster extends React.Component {
 
 ## < Toaster />
 
-`Toaster` component is represents container wich displays messages.
+`Toaster` component represents a container that displays messages.
 
-Accepts following props: 
+Accepts the following props: 
 
-`onHide` - callback that executes `AFTER` hide message. `Optional`.
-Takes native event as first argument and `message item` as second argument.
+`onHide` - a callback that executes `AFTER` hide the message. `Optional`.
+Takes native event as the first argument and `message item` as the second argument.
 
-`onShow` - callback that executes `BEFORE` show message. `Optional`.
-Takes native event as first argument and [message item](#Message-item) as second argument.
+`onShow` - a callback that executes `BEFORE` show the message. `Optional`.
+Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
-`onPress` - callback that executes on container press. `Optional`.
-Takes native event as first argument and [message item](#Message-item) as second argument.
+`onPress` - a callback that executes on container press. `Optional`.
+Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
-`onHoldStart` - callback that executes on container press and hold. `Optional`.
-Takes native event as first argument and [message item](#Message-item) as second argument.
+`onHoldStart` - a callback that executes on container press and hold. `Optional`.
+Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
-`onHoldEnd` - callback that executes on container press and release. `Optional`.
-Takes native event as first argument and [message item](#Message-item) as second argument.
+`onHoldEnd` - a callback that executes on container press and release. `Optional`.
+Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
 `duration` - specifies `common` display time in `msec` for message. `Optional`. Default - `2000`.
 
 `delayBetween` - specifies delay time in `msec` between showing messages. `Optional`. Default - `0`.
 
-`hideOnPress` - specifies that message should hide on press it. `Optional`. Default - `false`.
+`hideOnPress` - specifies that the message should hide on press it. `Optional`. Default - `false`.
 
-`style` - specifies styles for container. `Optional`. Default - [ToasterStyles](./src/components/Toaster/ToasterStyles.js)
+`style` - specifies styles for the container. `Optional`. Default - [ToasterStyles](./src/components/Toaster/ToasterStyles.js)
 
-`animation` - specifies animation that applies to hide/show message. `Optional`. Default - [SlideY](./animations/SlideY.js). See more details below.
+`animation` - specifies animation that applies to hide/show the message. `Optional`. Default - [SlideY](./animations/SlideY.js). See more details below.
 
-`middleware` - executes before message will be added to queue. Should return `string`. `Optional`. 
+`middleware` - executes before the message will be added to a queue. Should return `string`. `Optional`. 
 Takes [message item](#Message-item) as argument.
 
-`Toaster` can takes children only as `function`:
+`Toaster` can take children only as `function`:
 ```ts
 (item: { type: string; message: string }) => React.ReactNode;
 ```
 
-In this case, default `Toast` will be replaced with returned component.
+In this case, the default `Toast` will be replaced with the returned component.
 
-*NOTE: To stop hiding timer, you can tap and hold touch on container as long as you want*
+*NOTE: To stop hiding timer, you can tap and hold your touch on the container as long as you want*
 
 ##### Message item
 
-Message item represents following interface:
+Message item represents the following interface:
 
 ```ts
 item: {
@@ -177,16 +177,16 @@ item: {
 }
 ```
 
-#### Creating message
+#### Creating a message
 
 `Toaster` created around `singleton` pattern. So make sure that you have only one instance.
 
-`Toaster` have several static methods, that creates messages:
+`Toaster` has several static methods, that creates messages:
 
 ```ts
 /*
-	first argument specifies message. REQUIRED.
-	second argument specifies duration. OPTIONAL. By default - value from props.
+	the first argument specifies thr message. REQUIRED.
+	the second argument specifies the duration. OPTIONAL. By default - value from props.
 */
 
 Toaster.info("message", 500);
@@ -206,9 +206,9 @@ There are several built-in animations:
 
 ```ts
 /*
-	first argument specifies start animation value. REQUIRED.
-	second argument specifies end animation value. REQUIRED.
-	third argument specifies anmation config. This is same config as in AnimationTimingConfig. OPTIONAL. (https://facebook.github.io/react-native/docs/animated)
+	the first argument specifies the start animation value. REQUIRED.
+	the second argument specifies end animation value. REQUIRED.
+	the third argument specifies the animation config. This is the same config as in AnimationTimingConfig. OPTIONAL. (https://facebook.github.io/react-native/docs/animated)
 */
 new Opacity(0, 1,{
 		duration: 250,
@@ -248,7 +248,7 @@ class MyCustomAnimation extends BaseAnimation {
 		});
 	}
 	
-	// applies animation to container
+	// applies animation to the container
 	getAnimation() {
 		return {
 			transform: [{ scale: this.value }]
