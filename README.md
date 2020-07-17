@@ -13,6 +13,12 @@ Toast feedback messages for React Native
  npm install react-native-toastboard
 ```
 
+## Via YARN
+
+```bash
+ yarn add react-native-toastboard
+```
+
 # Example
 
 ```jsx
@@ -185,7 +191,7 @@ item: {
 
 ```ts
 /*
-	the first argument specifies thr message. REQUIRED.
+	the first argument specifies the message. REQUIRED.
 	the second argument specifies the duration. OPTIONAL. By default - value from props.
 */
 
