@@ -1,11 +1,11 @@
 language: node_js
 node_js:
-  - "10"
+  - "18"
 
 cache:
   directories:
     - "node_modules"
 
-before_script: npm run stage
+before_script: yarn lint && yarn lint:ts
 
 after_success: ./node_modules/.bin/codecov

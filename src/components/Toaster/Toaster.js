@@ -1,141 +1,58 @@
-// @flow
-import * as React from "react";
-import { Animated } from "react-native";
-
-import type { ToasterProps } from "./ToasterPropTypes";
-
-import { Queue } from "../../utils/Queue";
-import { Timer } from "../../utils/Timer";
-import { wait } from "../../utils/wait";
-
-import { Toast, ToastType } from "../Toast";
-import { TouchController } from "../TouchController";
-import { ToasterPropTypes, ToasterDefaultProps } from "./ToasterPropTypes";
-
-/* eslint-disable-next-line no-unused-vars */
-const unmountedHandler = function (message: string, type: string, duration?: number) {
-	/* eslint-disable-next-line no-console */
-	console.warn("Toaster should be rendered before creating message");
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
-
-let createToast = unmountedHandler;
-
-export class Toaster extends React.PureComponent<ToasterProps> {
-	static propTypes = ToasterPropTypes;
-	static defaultProps = ToasterDefaultProps;
-
-	static info = function (message: string, duration?: number) {
-		createToast(message, ToastType.INFO, duration);
-	}
-
-	static error = function (message: string, duration?: number) {
-		createToast(message, ToastType.ERROR, duration);
-	}
-
-	static success = function (message: string, duration?: number) {
-		createToast(message, ToastType.SUCCESS, duration);
-	}
-
-	static debug = function (message: string, duration?: number) {
-		createToast(message, ToastType.DEBUG, duration);
-	}
-
-	queue: Queue;
-	nextItem: (() => void) | void;
-
-	timer = new Timer();
-
-	constructor(props: ToasterProps) {
-		super(props);
-
-		this.queue = new Queue({
-			onIteration: this.handleIteration,
-			beforeIteration: () => this.forceUpdate()
-		});
-	}
-
-	componentDidMount() {
-		createToast = (message: string, type: string, duration?: ?number) => {
-			const transformed = this.props.middleware
-				? this.props.middleware({ message, type, duration })
-				: message;
-
-			this.queue.push({ message: transformed, type, duration });
-			this.queue.start();
-		};
-	}
-
-	componentWillUnmount() {
-		createToast = unmountedHandler;
-		this.queue.stop();
-		this.timer.stop();
-	}
-
-	render() {
-		return (
-			<Animated.View style={[this.props.style, this.props.animation.getAnimation()]}>
-				<TouchController
-					onHoldStart={this.handleHoldStart}
-					onHoldEnd={this.handleHoldEnd}
-					onPress={this.handlePress}
-				>
-					{this.Toast}
-				</TouchController>
-			</Animated.View>
-		);
-	}
-
-	get Toast() {
-		if (!this.queue.list.length) {
-			return null;
-		}
-
-		if (this.props.children) {
-			return this.props.children({
-				type: this.queue.list[0].type,
-				message: this.queue.list[0].message
-			});
-		}
-
-		return (
-			<Toast
-				type={this.queue.list[0].type}
-				message={this.queue.list[0].message}
-			/>
-		);
-	}
-
-	handleHoldStart = (event: any) => {
-		this.props.onHoldStart && this.props.onHoldStart(event, this.queue.list[0]);
-		this.timer.pause();
-	}
-
-	handleHoldEnd = (event: any) => {
-		this.props.onHoldEnd && this.props.onHoldEnd(event, this.queue.list[0]);
-		this.timer.resume();
-	}
-
-	handlePress = (event: any) => {
-		this.props.onPress && this.props.onPress(event, this.queue.list[0]);
-
-		if (!this.props.hideOnPress) {
-			return;
-		}
-
-		this.timer.stop();
-	}
-
-	handleIteration = async (item: any) => {
-		this.props.onShow && this.props.onShow(item);
-		await this.props.animation.forward();
-
-		await this.timer.start(item.duration || this.props.duration);
-
-		await this.props.animation.backward();
-		this.props.onHide && this.props.onHide(item);
-
-		if (this.props.delayBetween) {
-			await wait(this.props.delayBetween);
-		}
-	}
-}
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Toaster = void 0;
+const React = __importStar(require("react"));
+const react_native_1 = require("react-native");
+const Toast_1 = require("../Toast");
+const TouchController_1 = require("../TouchController");
+const useToaster_1 = require("./useToaster");
+const styles_1 = require("./styles");
+const Toaster = (_a) => {
+    var _b;
+    var { containerViewProps, children } = _a, props = __rest(_a, ["containerViewProps", "children"]);
+    const { onHoldStart, onHoldEnd, onPress, activeToastItem, } = (0, useToaster_1.useToaster)(props);
+    return (<react_native_1.Animated.View {...containerViewProps} style={[styles_1.styles.container, containerViewProps.style, (_b = props.animation) === null || _b === void 0 ? void 0 : _b.styles]}>
+      <TouchController_1.TouchController onHoldStart={onHoldStart} onHoldEnd={onHoldEnd} onPress={onPress}>
+        {activeToastItem && ((children === null || children === void 0 ? void 0 : children(activeToastItem)) || (<Toast_1.Toast type={activeToastItem.type} message={activeToastItem.message}/>))}
+      </TouchController_1.TouchController>
+    </react_native_1.Animated.View>);
+};
+exports.Toaster = Toaster;
+exports.Toaster.info = useToaster_1.StaticMethods.info;
+exports.Toaster.error = useToaster_1.StaticMethods.error;
+exports.Toaster.debug = useToaster_1.StaticMethods.debug;
+exports.Toaster.success = useToaster_1.StaticMethods.success;

@@ -1,0 +1,117 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - plugin:react/recommended
+  - airbnb-typescript
+overrides:
+  [
+    {
+      "files": ["*.test.ts", "*.test.tsx"],
+      "rules":
+        {
+          "react-hooks/rules-of-hooks": "off",
+          "max-lines": "off",
+        },
+    },
+  ]
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+    modules: true
+  project: "./tsconfig.json"
+plugins:
+  - react
+  - react-native
+  - import
+  - react-hooks
+settings:
+  react:
+    version: "detect"
+rules:
+  {
+    "no-extra-semi": "error",
+    "no-irregular-whitespace": "error",
+    "no-unexpected-multiline": "error",
+    "semi": ["error", "always"],
+    "key-spacing":
+      ["error", { "beforeColon": false, "afterColon": true, "mode": "strict" }],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "rest-spread-spacing": "error",
+    "template-curly-spacing": "error",
+    "object-curly-spacing": ["error", "always"],
+    "block-spacing": "error",
+    "arrow-spacing": ["error", { "before": true, "after": true }],
+    "space-in-parens": ["error", "never"],
+    "react/self-closing-comp": ["error", { "component": true }],
+    "react/jsx-closing-bracket-location": "error",
+    "react/jsx-indent-props": ["error", 2],
+    "react/jsx-wrap-multilines":
+      [
+        "error",
+        {
+          declaration: "parens",
+          assignment: "parens",
+          return: "parens",
+          arrow: "parens",
+          condition: "parens",
+          logical: "parens",
+          prop: "parens",
+        },
+      ],
+    "no-console": "error",
+    "no-return-await": "off",
+    "@typescript-eslint/no-unused-vars":
+      ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/await-thenable": "error",
+    "@typescript-eslint/no-redeclare": "off",
+    "@typescript-eslint/return-await": ["error", "in-try-catch"],
+    "@typescript-eslint/type-annotation-spacing": ["error", { after: true }],
+    "jsx-quotes": ["error", "prefer-double"],
+    "eol-last": ["error", "always"],
+    "no-trailing-spaces": ["error"],
+    "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0 }],
+    "padding-line-between-statements":
+      [
+        "error",
+        { blankLine: "always", prev: "*", next: "return" },
+        { blankLine: "always", prev: "block-like", next: "*" },
+      ],
+    "react/jsx-fragments": ["off", "element"],
+    "react/destructuring-assignment": ["off", "never"],
+    "max-len": ["error", 120],
+    "@typescript-eslint/member-delimiter-style":
+      [
+        "error",
+        {
+          multiline: { delimiter: "semi", requireLast: true },
+          singleline: { delimiter: "semi", requireLast: false },
+        },
+      ],
+    "max-lines": ["error", 200],
+    "import/no-default-export": "error",
+    "import/prefer-default-export": "off",
+    "import/order":
+      [
+        "error",
+        {
+          "groups": ["builtin", "external", "parent", "sibling", "index"],
+          "newlines-between": "always",
+          "pathGroupsExcludedImportTypes": ["builtin"],
+        },
+      ],
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-indent":
+      ["error", 2, { indentLogicalExpressions: true, checkAttributes: true }],
+    "arrow-body-style": "off",
+    "react/prop-types": "off",
+    "react/display-name": ["error"],
+    "react-hooks/rules-of-hooks": "error",
+    "react/no-unstable-nested-components": ["error", { allowAsProps: true }],
+    "react/require-default-props": "off",
+    "react/no-unused-prop-types": ["error", { ignore: ["testID"] }],
+    "no-prototype-builtins": "off",
+    "react-native/no-single-element-style-arrays": "error",
+    "require-await": "error",
+  }

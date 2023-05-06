@@ -22,27 +22,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TouchController = void 0;
+exports.useTouchController = void 0;
 const React = __importStar(require("react"));
-const react_native_1 = require("react-native");
-const useTouchController_1 = require("./useTouchController");
-const TouchController = (_a) => {
-    var { children } = _a, props = __rest(_a, ["children"]);
-    const { onPressIn, onPressOut, } = (0, useTouchController_1.useTouchController)(props);
-    return (<react_native_1.TouchableOpacity activeOpacity={1} onPressIn={onPressIn} onPressOut={onPressOut}>
-      {children}
-    </react_native_1.TouchableOpacity>);
+const useTouchController = ({ pressEventDuration = 200, onPress, onHoldEnd, onHoldStart, }) => {
+    const [timestamp, setTimestamp] = React.useState(0);
+    const timer = React.useRef();
+    const onPressIn = React.useCallback((event) => {
+        clearTimeout(timer.current);
+        setTimestamp(Date.now());
+        timer.current = setTimeout(() => onHoldStart(event), pressEventDuration);
+    }, [onHoldStart, pressEventDuration]);
+    const onPressOut = React.useCallback((event) => {
+        const isPressEvent = (timestamp + pressEventDuration) >= Date.now();
+        if (isPressEvent) {
+            clearTimeout(timer.current);
+            return onPress(event);
+        }
+        onHoldEnd(event);
+    }, [timestamp, pressEventDuration, onPress, onHoldEnd]);
+    return {
+        onPressIn,
+        onPressOut,
+    };
 };
-exports.TouchController = TouchController;
+exports.useTouchController = useTouchController;

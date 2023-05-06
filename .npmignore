@@ -12,7 +12,6 @@ tests/
 node_modules/
 .travis.yml
 .coverage
-.flowconfig
 .gitignore
 .package-lock.json
 .watchmanconfig
