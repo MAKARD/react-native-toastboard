@@ -16,6 +16,7 @@ jobs:
       - run:
           name: "Test"
           command: "yarn test"
+      - codecov/upload
       - store_test_results:
           path: ./coverage
       - store_artifacts:
