@@ -1,4 +1,5 @@
 [![codecov](https://codecov.io/gh/MAKARD/react-native-toastboard/branch/master/graph/badge.svg?token=8jbRRNixLc)](https://codecov.io/gh/MAKARD/react-native-toastboard)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/MAKARD/react-native-toastboard/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/MAKARD/react-native-toastboard/tree/master)
 
 [Expo snack](https://snack.expo.io/@makard/react-native-toastboard)
 
