@@ -19,6 +19,7 @@ module.exports = {
   ],
   reporters: [
     'default',
+    [ 'jest-junit', { outputDirectory: './coverage' } ],
   ],
   collectCoverageFrom: ['src/**/*.ts', 'src/**/*.tsx'],
   testMatch: [ '**/__tests__/*.ts?(x)' ],
