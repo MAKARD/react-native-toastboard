@@ -1,5 +1,0 @@
-[untyped]
-.*/node_modules/react-native/**/*
-
-[libs]
-.*/node_modules/@flow-typed/

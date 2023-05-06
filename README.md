@@ -1,8 +1,5 @@
 # React-Native-Toastboard
 
-[![Build Status](https://travis-ci.org/MAKARD/react-native-toastboard.svg?branch=master)](https://travis-ci.org/MAKARD/react-native-toastboard)
-[![codecov](https://codecov.io/gh/MAKARD/react-native-toastboard/branch/master/graph/badge.svg)](https://codecov.io/gh/MAKARD/react-native-toastboard)
-
 Toast feedback messages for React Native
 
 # Installation
@@ -22,108 +19,98 @@ Toast feedback messages for React Native
 # Example
 
 ```jsx
-import * as React from "react";
-import { Animated, Text, Image, Dimensions, StatusBar } from "react-native";
+const appearAnimation = new SlideX(Dimensions.get('screen').width, 0);
+const holdAnimation = new Zoom(1, .95, { duration: 200, useNativeDriver: true });
 
-import { SlideX, Zoom } from "react-native-toastboard/animations";
-import { Toaster as ToastBoard, ToastType } from "react-native-toastboard";
+const toastMiddleware = ({ type, message }: Item) => {
+  if (type !== ToastType.ERROR) {
+    return message;
+  }
 
-import { Images } from "@assets/Images";
+  if (typeof message === 'string') {
+    return message;
+  }
 
-import { styles } from "./styles";
+  if (message.response && message.response.data && message.response.data.message) {
+    return message.response.data.message;
+  } else {
+    return 'Some error was happened :(';
+  }
+};
 
-export class Toaster extends React.Component {
-	appearAnimation = new SlideX(Dimensions.get("screen").width, 0);
-	/* eslint-disable-next-line no-magic-numbers */
-	holdAnimation = new Zoom(1, .95, { duration: 200, useNativeDriver: true });
+const renderToast = ({ type, message }: Item) => {
+  switch (type) {
+    case ToastType.INFO: {
+      return (
+        <Animated.View style={[styles.info.container, holdAnimation.styles]}>
+          <Image
+            resizeMode="cover"
+            source={Images.iconFaq}
+            style={styles.info.icon}
+          />
+          <Text style={styles.info.text}>{message}</Text>
+        </Animated.View>
+      );
+    }
 
-	render() {
-		return (
-			<ToastBoard
-				hideOnPress
+    case ToastType.ERROR: {
+      return (
+        <Animated.View style={[styles.error.container, this.holdAnimation.styles]}>
+          <Image
+            resizeMode="cover"
+            source={Images.iconWarning}
+            style={styles.error.icon}
+          />
+          <Text style={styles.error.text}>{message}</Text>
+        </Animated.View>
+      );
+    }
 
-				onHide={this.handleHide}
-				onShow={this.handleShow}
-				onHoldEnd={this.holdAnimation.backward}
-				onHoldStart={this.holdAnimation.forward}
+    case ToastType.SUCCESS: {
+      return (
+        <Animated.View style={[styles.success.container, this.holdAnimation.styles]}>
+          <Image
+            resizeMode="cover"
+            source={Images.iconCheck}
+            style={styles.success.icon}
+          />
+          <Text style={styles.success.text}>{message}</Text>
+        </Animated.View>
+      );
+    }
 
-				middleware={this.toastMiddleware}
+    default: {
+      throw new Error('Unknown type given');
+    }
+  }
+};
 
-				animation={this.appearAnimation}
-			>
-				{this.renderToast}
-			</ToastBoard>
-		);
-	}
+export const Example = () => {
+  const onHide = () => {
+    StatusBar.setHidden(false);
+  };
 
-	toastMiddleware = ({ type, message }) => {
-		if (type !== ToastType.ERROR) {
-			return message;
-		}
+  const onShow = () => {
+    StatusBar.setHidden(true);
+  };
 
-		if (typeof message === "string") {
-			return message;
-		}
+  return (
+    <Toaster
+      hideOnPress
 
-		if (message.response && message.response.data && message.response.data.message) {
-			return message.response.data.message;
-		} else {
-			return "Some error was happened :(";
-		}
-	}
+      onHide={onHide}
+      onShow={onShow}
+      onHoldEnd={holdAnimation.backward}
+      onHoldStart={holdAnimation.forward}
 
-	renderToast = ({ type, message }) => {
-		switch (type) {
-			case ToastType.INFO: {
-				return (
-					<Animated.View style={[styles.info.container, this.holdAnimation.getAnimation()]}>
-						<Image
-							resizeMode="cover"
-							source={Images.iconFaq}
-							style={styles.info.icon}
-						/>
-						<Text style={styles.info.text}>{message}</Text>
-					</Animated.View>
-				);
-			}
-			case ToastType.ERROR: {
-				return (
-					<Animated.View style={[styles.error.container, this.holdAnimation.getAnimation()]}>
-						<Image
-							resizeMode="cover"
-							source={Images.iconWarning}
-							style={styles.error.icon}
-						/>
-						<Text style={styles.error.text}>{message}</Text>
-					</Animated.View>
-				);
-			}
-			case ToastType.SUCCESS: {
-				return (
-					<Animated.View style={[styles.success.container, this.holdAnimation.getAnimation()]}>
-						<Image
-							resizeMode="cover"
-							source={Images.iconCheck}
-							style={styles.success.icon}
-						/>
-						<Text style={styles.success.text}>{message}</Text>
-					</Animated.View>
-				);
-			}
-			default: {
-				throw new Error("Unknown type given");
-			}
-		}
-	}
+      middleware={toastMiddleware}
 
-	handleHide = () => {
-		StatusBar.setHidden(false);
-	}
-
-	handleShow = () => {
-		StatusBar.setHidden(true);
-	}
-}
+      animation={appearAnimation}
+    >
+      {renderToast}
+    </Toaster>
+  );
+};
 ```
 
 # Public interface
@@ -134,30 +121,30 @@ export class Toaster extends React.Component {
 
 Accepts the following props: 
 
-`onHide` - a callback that executes `AFTER` hide the message. `Optional`.
-Takes native event as the first argument and `message item` as the second argument.
+`onHide` - a callback that executes `AFTER` message gets hidden. `Optional`.
+Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
-`onShow` - a callback that executes `BEFORE` show the message. `Optional`.
+`onShow` - a callback that executes `BEFORE` message gets shown. `Optional`.
 Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
 `onPress` - a callback that executes on container press. `Optional`.
 Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
-`onHoldStart` - a callback that executes on container press and hold. `Optional`.
+`onHoldStart` - a callback that executes when a user holds their touch on message. `Optional`.
 Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
-`onHoldEnd` - a callback that executes on container press and release. `Optional`.
+`onHoldEnd` - a callback that executes when a user releases their touch from message after holding it. `Optional`.
 Takes native event as the first argument and [message item](#Message-item) as the second argument.
 
-`duration` - specifies `common` display time in `msec` for message. `Optional`. Default - `2000`.
+`duration` - specifies `common` display time in `msec` for messages. `Optional`. Default - `2000`.
 
 `delayBetween` - specifies delay time in `msec` between showing messages. `Optional`. Default - `0`.
 
-`hideOnPress` - specifies that the message should hide on press it. `Optional`. Default - `false`.
+`hideOnPress` - specifies that the message should be closed when a user touches it. `Optional`. Default - `false`.
 
-`style` - specifies styles for the container. `Optional`. Default - [ToasterStyles](./src/components/Toaster/ToasterStyles.js)
+`containerViewProps` - specifies props for the container's <View> element. `Optional`.
 
-`animation` - specifies animation that applies to hide/show the message. `Optional`. Default - [SlideY](./animations/SlideY.js). See more details below.
+`animation` - specifies animation that applies to hide/show the message. `Optional`. Default - [SlideY](./src/animations/SlideY.ts). See more details below.
 
 `middleware` - executes before the message will be added to a queue. Should return `string`. `Optional`. 
 Takes [message item](#Message-item) as argument.
@@ -169,7 +156,7 @@ Takes [message item](#Message-item) as argument.
 
 In this case, the default `Toast` will be replaced with the returned component.
 
-*NOTE: To stop hiding timer, you can tap and hold your touch on the container as long as you want*
+*NOTE: To stop hide-timer, you can tap and hold your touch on the container as long as you want*
 
 ##### Message item
 
@@ -185,9 +172,9 @@ item: {
 
 #### Creating a message
 
-`Toaster` created around `singleton` pattern. So make sure that you have only one instance.
+`Toaster` is a `singleton`. So make sure that you have only one instance.
 
-`Toaster` has several static methods, that creates messages:
+`Toaster` has several static methods for messages creation:
 
 ```ts
 /*
@@ -205,33 +192,30 @@ Toaster.debug("message", 500);
 
 There are several built-in animations: 
 
- - [Opacity](./animations/Opacity.js)
- - [SlideX](./animations/SlideX.js)
- - [SlideY](./animations/SlideY.js)
- - [Zoom](./animations/Zoom.js)
+ - [Opacity](./src/animations/Opacity.ts)
+ - [SlideX](./src/animations/SlideX.ts)
+ - [SlideY](./src/animations/SlideY.ts)
+ - [Zoom](./src/animations/Zoom.ts)
 
 ```ts
 /*
-	the first argument specifies the start animation value. REQUIRED.
-	the second argument specifies end animation value. REQUIRED.
-	the third argument specifies the animation config. This is the same config as in AnimationTimingConfig. OPTIONAL. (https://facebook.github.io/react-native/docs/animated)
+	- the first argument specifies start-animation value. REQUIRED.
+	- the second argument specifies end-animation value. REQUIRED.
+	- the third argument specifies the animation config. This is the same config as in AnimationTimingConfig. OPTIONAL. (https://facebook.github.io/react-native/docs/animated)
 */
-new Opacity(0, 1,{
+new Opacity(0, 1, {
 		duration: 250,
 		useNativeDriver: true
 	});
 ```
 
-Each of them extends and implements `BaseAnimation`. So if you want to create custom animation, make sure you correctly implement it:
+Each animation extends `BaseAnimation` and implements `ToasterAnimation`. So if you want to create custom animation, make sure you correctly implement it:
 
 ```tsx
-import { BaseAnimation } from "react-native-toastboard/animations";
-import { Animated } from "react-native";
-
-class MyCustomAnimation extends BaseAnimation {
+class MyCustomAnimation extends BaseAnimation implements ToasterAnimation {
 	/*
 		1. Animated.timing SHOULD BE WRAPPED INTO PROMISE.
-		2. getAnimation SHOULD RETURN VALID OBJECT STYLES.
+		2. styles SHOULD RETURN VALID OBJECT STYLES.
 	*/
 	
 	// start animation forward
@@ -255,16 +239,16 @@ class MyCustomAnimation extends BaseAnimation {
 	}
 	
 	// applies animation to the container
-	getAnimation() {
-		return {
-			transform: [{ scale: this.value }]
-		};
+	styles = {
+		transform: [{ scale: this.value }]
 	}
 }
 
 // ...
 
-<Toaster animation={new MyCustomAnimation(-2, 15)} />
+const animation = new MyCustomAnimation(-2, 15);
+
+<Toaster animation={animation} />
 ```
 
-*NOTE: import animations from `/animations` subdirectory*
+*NOTE: Always create animation instances outside from the component body OR use memoisation*

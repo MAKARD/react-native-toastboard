@@ -1,0 +1,15 @@
+{
+    "include": ["src/**/*"],
+    "exclude": ["src/**/__tests__"],
+    "compilerOptions": {
+      "target": "es2016",
+      "jsx": "react",
+      "module": "commonjs",
+      "skipLibCheck": true,
+      "declaration": true,
+      "outDir": "dist",
+      "declarationMap": false,
+      "sourceMap": false,
+    }
+  }
+  

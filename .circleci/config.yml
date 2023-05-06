@@ -1,0 +1,28 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.0.2
+  codecov: codecov/codecov@3.2.4
+
+jobs:
+  quality-gates:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          name: "Lint"
+          command: "yarn lint && yarn lint:ts"
+      - run:
+          name: "Test"
+          command: "yarn test"
+      - codecov/upload
+      - store_test_results:
+          path: ./coverage
+      - store_artifacts:
+          path: ./coverage
+
+workflows:
+  pr-workflow:
+    jobs:
+      - quality-gates
