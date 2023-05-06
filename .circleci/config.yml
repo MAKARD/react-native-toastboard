@@ -17,7 +17,7 @@ jobs:
           name: "Test"
           command: "yarn test"
       - codecov/upload:
-          token: 688eb7bf-44f3-4b57-82df-ff3b0c69db0f
+          token: $CODECOV
       - store_test_results:
           path: ./coverage
       - store_artifacts:
