@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5.0.2
+  codecov: codecov/codecov@3.2.4
 
 jobs:
   quality-gates:
@@ -15,6 +16,7 @@ jobs:
       - run:
           name: "Test"
           command: "yarn test"
+      - codecov/upload
       - store_test_results:
           path: ./coverage
       - store_artifacts:
