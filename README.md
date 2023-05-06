@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/MAKARD/react-native-toastboard/branch/master/graph/badge.svg?token=8jbRRNixLc)](https://codecov.io/gh/MAKARD/react-native-toastboard)
+
 # React-Native-Toastboard
 
 Toast feedback messages for React Native
