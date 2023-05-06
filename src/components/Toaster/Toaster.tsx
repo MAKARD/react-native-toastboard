@@ -8,7 +8,7 @@ import { Item, UseToasterParams, StaticMethods, useToaster } from './useToaster'
 import { styles } from './styles';
 
 interface ToasterProps extends UseToasterParams {
-  containerViewProps: ViewProps;
+  containerViewProps?: ViewProps;
   children?: (item: Item) => React.ReactNode;
 }
 
@@ -27,7 +27,7 @@ export const Toaster: React.FC<ToasterProps> & StaticMethods = ({
   return (
     <Animated.View
       {...containerViewProps}
-      style={[styles.container, containerViewProps.style, props.animation?.styles]}
+      style={[styles.container, containerViewProps?.style, props.animation?.styles]}
     >
       <TouchController
         onHoldStart={onHoldStart}
