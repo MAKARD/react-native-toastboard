@@ -17,6 +17,8 @@ jobs:
           command: "yarn test"
       - store_test_results:
           path: ./coverage
+      - store_artifacts:
+          path: ./coverage
 
 workflows:
   pr-workflow:
