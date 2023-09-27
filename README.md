@@ -7,6 +7,8 @@
 
 Toast feedback messages for React Native
 
+<IMG width="300" src="https://github.com/MAKARD/react-native-toastboard/assets/25794983/0e5c06dc-a4f2-406b-a212-87e9b7b76e51"  alt="image.png"/>
+
 # Installation
 
 ## Via NPM
